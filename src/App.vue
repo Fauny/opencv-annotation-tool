@@ -23,18 +23,20 @@
         button(@click="make") Make & Copy
         //- button(@click="clip") Clipboard
       div.file-list 
-        | files:
+        h4 Files
         ul
           li(v-for="f in fileList" :key="f.name" @click="file=f" :class="{active:f==file}") {{f.name}}
-          li(v-if="fileList.length==0") no image file
+          li.hint(v-if="fileList.length==0") no image file
       div.positions(v-if="file")
-        | sample rects:
+        h4 Markers
         ul
           li(v-for="(p,i) in file.rects" key="i" @click="load(p)")
             | {{i+1}}: {{p.x}} {{p.y}} {{p.w}} {{p.h}}
             span(@click="del(i)") X
-          li(v-if="file.rects.length==0") no rect selected, double click rect selecotr to add
-      textarea(ref="out" v-model="output")
+          li.hint(v-if="file.rects.length==0") no rect selected, double click rect selecotr to add
+      div     
+        h4 Result
+        textarea(ref="out" v-model="output")
 </template>
 
 <script>
@@ -91,20 +93,36 @@ export default {
             console.log(e)
             switch (e.key) {
                 case 'ArrowLeft':
-                    this.w--
-                    if (e.shiftKey) this.h = this.w
+                    if (e.shiftKey) {
+                        this.w--
+                        if (e.altKey) this.h = this.w
+                    } else {
+                        this.x--
+                    }
                     break
                 case 'ArrowUp':
-                    this.h--
-                    if (e.shiftKey) this.w = this.h
+                    if (e.shiftKey) {
+                        this.h--
+                        if (e.altKey) this.w = this.h
+                    } else {
+                        this.y--
+                    }
                     break
                 case 'ArrowRight':
-                    this.w++
-                    if (e.shiftKey) this.h = this.w
+                    if (e.shiftKey) {
+                        this.w++
+                        if (e.altKey) this.h = this.w
+                    } else {
+                        this.x++
+                    }
                     break
                 case 'ArrowDown':
-                    this.h++
-                    if (e.shiftKey) this.w = this.h
+                    if (e.shiftKey) {
+                        this.h++
+                        if (e.altKey) this.w = this.h
+                    } else {
+                        this.y++
+                    }
                     break
                 case ('ShiftLeft', 'ShiftRight'):
                     this.w = this.h
@@ -311,7 +329,7 @@ body,
         }
         #pane {
             position: absolute;
-            border: 2px solid #ff000077;
+            border: 4px solid rgba(255, 235, 59, 0.61);
         }
         .circle {
             position: absolute;
@@ -344,6 +362,10 @@ body,
                         color: red;
                     }
                 }
+                &.hint{
+                    font-style: italic;
+                    color:#555;
+                }
             }
         }
 
@@ -356,7 +378,13 @@ body,
             display: none;
         }
         textarea {
-            width: 90%;
+            width: 100%;
+            min-height:4em;
+        }
+        h4{
+            font-size:1rem;
+            background-color: silver;
+            padding-left:2px; 
         }
     }
 }
