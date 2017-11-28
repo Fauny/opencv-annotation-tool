@@ -90,7 +90,8 @@ export default {
     },
     methods: {
         keydown(e) {
-            console.log(e)
+            var catched = true
+
             switch (e.key) {
                 case 'ArrowLeft':
                     if (e.shiftKey) {
@@ -130,6 +131,13 @@ export default {
                 case ('Space', 'Enter'):
                     this.record()
                     break
+                default:
+                    catched = false
+            }
+            if (catched) {
+                e.stopPropagation()
+                e.preventDefault()
+                this.regularCoords()
             }
         },
         getCircle(p) {
@@ -155,6 +163,12 @@ export default {
             this.y = p.y
             this.w = p.w
             this.h = p.h
+        },
+        regularCoords() {
+            this.x = Math.round(this.x)
+            this.y = Math.round(this.y)
+            this.w = Math.round(this.w)
+            this.h = Math.round(this.h)
         },
         calc(e) {
             this.mProps.b = this.$refs.pane.getBoundingClientRect()
@@ -208,43 +222,42 @@ export default {
         mmPane(e) {
             this.calc(e)
             var clicked = this.clicked
-            if (this.clicked && this.clicked.isResizing) {
-                if (clicked.onRightEdge) {
-                    this.w = Math.max(this.mProps.x, minWidth)
-                }
-                if (clicked.onBottomEdge) {
-                    this.h = Math.max(this.mProps.y, minHeight)
-                }
 
-                if (clicked.onLeftEdge) {
-                    var currentWidth = Math.max(
-                        clicked.cx - e.clientX + clicked.w,
-                        minWidth
-                    )
-                    if (currentWidth > minWidth) {
-                        this.w = currentWidth
-                        this.x = e.clientX
+            if (this.clicked) {
+                if (this.clicked.isResizing) {
+                    if (clicked.onRightEdge) {
+                        this.w = Math.max(this.mProps.x, minWidth)
                     }
-                }
-
-                if (clicked.onTopEdge) {
-                    var currentHeight = Math.max(
-                        clicked.cy - e.clientY + clicked.h,
-                        minHeight
-                    )
-                    if (currentHeight > minHeight) {
-                        this.h = currentHeight
-                        this.y = e.clientY
+                    if (clicked.onBottomEdge) {
+                        this.h = Math.max(this.mProps.y, minHeight)
                     }
+
+                    if (clicked.onLeftEdge) {
+                        var currentWidth = Math.max(
+                            clicked.cx - e.clientX + clicked.w,
+                            minWidth
+                        )
+                        if (currentWidth > minWidth) {
+                            this.w = currentWidth
+                            this.x = e.clientX
+                        }
+                    }
+
+                    if (clicked.onTopEdge) {
+                        var currentHeight = Math.max(
+                            clicked.cy - e.clientY + clicked.h,
+                            minHeight
+                        )
+                        if (currentHeight > minHeight) {
+                            this.h = currentHeight
+                            this.y = e.clientY
+                        }
+                    }
+                } else if (clicked.isMoving) {
+                    this.y = e.clientY - clicked.y + this.$refs.main.scrollTop
+                    this.x = e.clientX - clicked.x + this.$refs.main.scrollLeft
                 }
-
-                return
-            }
-
-            if (clicked && clicked.isMoving) {
-                this.y = e.clientY - clicked.y + this.$refs.main.scrollTop
-                this.x = e.clientX - clicked.x + this.$refs.main.scrollLeft
-
+                this.regularCoords()
                 return
             }
 
@@ -362,9 +375,9 @@ body,
                         color: red;
                     }
                 }
-                &.hint{
+                &.hint {
                     font-style: italic;
-                    color:#555;
+                    color: #555;
                 }
             }
         }
@@ -379,12 +392,12 @@ body,
         }
         textarea {
             width: 100%;
-            min-height:4em;
+            min-height: 4em;
         }
-        h4{
-            font-size:1rem;
+        h4 {
+            font-size: 1rem;
             background-color: silver;
-            padding-left:2px; 
+            padding-left: 2px;
         }
     }
 }
