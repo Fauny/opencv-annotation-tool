@@ -288,28 +288,31 @@ export default {
                 if (f.rects.length) {
                     line = f.name + ' ' + f.rects.length
                     for (var p of f.rects) {
-                        line += ` ${p.x} ${p.y} ${p.w} ${p.h}`
+                        line += ` ${p.x + 2} ${p.y + 2} ${p.w + 2} ${p.h + 2}`
                     }
                     this.output += line + '\n'
                 }
             }
 
             if (this.output) {
-                this.$nextTick(this.clip)
+                this.copyTextToClipboard()
             }
         },
-        clip() {
-            var copyText = this.$refs.out
-            copyText.select()
+        copyTextToClipboard() {
+            var textArea = document.createElement('textarea')
+
+            textArea.style.visible = 'hidden'
+            textArea.value = this.output
+            document.body.appendChild(textArea)
+            textArea.select()
             try {
                 var successful = document.execCommand('copy')
-                var msg = successful
-                    ? 'successful\n' + copyText.value
-                    : 'unsuccessful'
-                alert('Copying text command was ' + msg)
+                var msg = successful ? 'successful' : 'unsuccessful'
+                alert('Copying ' + msg)
             } catch (err) {
-                console.log('Oops, unable to copy', err)
+                alert('Oops, unable to copy')
             }
+            document.body.removeChild(textArea)
         },
         openFile(e) {
             this.file = {
