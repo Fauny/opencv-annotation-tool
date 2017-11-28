@@ -301,8 +301,15 @@ export default {
         clip() {
             var copyText = this.$refs.out
             copyText.select()
-            document.execCommand('Copy')
-            alert('Copied the text: ' + copyText.value)
+            try {
+                var successful = document.execCommand('copy')
+                var msg = successful
+                    ? 'successful\n' + copyText.value
+                    : 'unsuccessful'
+                alert('Copying text command was ' + msg)
+            } catch (err) {
+                console.log('Oops, unable to copy', err)
+            }
         },
         openFile(e) {
             this.file = {
@@ -370,7 +377,7 @@ body,
                 }
                 span {
                     float: right;
-                    margin-right: 0.5em;
+                    margin-right: 1em;
                     &:hover {
                         color: red;
                     }
@@ -381,7 +388,10 @@ body,
                 }
             }
         }
-
+        .positions > ul {
+            max-height: calc(60vh);
+            overflow: auto;
+        }
         button {
             width: 40%;
             padding: 0.5em;
