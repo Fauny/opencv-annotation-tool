@@ -97,6 +97,8 @@ export default {
                     if (e.shiftKey) {
                         this.w--
                         if (e.altKey) this.h = this.w
+                    } else if (e.altKey) {
+                        this.x -= 10
                     } else {
                         this.x--
                     }
@@ -105,6 +107,8 @@ export default {
                     if (e.shiftKey) {
                         this.h--
                         if (e.altKey) this.w = this.h
+                    } else if (e.altKey) {
+                        this.y -= 10
                     } else {
                         this.y--
                     }
@@ -113,6 +117,8 @@ export default {
                     if (e.shiftKey) {
                         this.w++
                         if (e.altKey) this.h = this.w
+                    } else if (e.altKey) {
+                        this.x += 10
                     } else {
                         this.x++
                     }
@@ -121,6 +127,8 @@ export default {
                     if (e.shiftKey) {
                         this.h++
                         if (e.altKey) this.w = this.h
+                    } else if (e.altKey) {
+                        this.y += 10
                     } else {
                         this.y++
                     }
