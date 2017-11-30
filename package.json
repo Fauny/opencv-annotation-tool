@@ -1,7 +1,7 @@
 {
-  "name": "picker",
+  "name": "opencv-annotation-tool",
   "version": "1.0.0",
-  "description": "image-samples-picker",
+  "description": "An html image annotation tool for [OpenCV Cascade Classifier Training]",
   "author": "admin <admin@sysmart.cn>",
   "private": true,
   "scripts": {
@@ -12,6 +12,10 @@
   },
   "dependencies": {
     "vue": "^2.5.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fauny/opencv-annotation-tool.git"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
