@@ -1,7 +1,7 @@
 # Image mark up helper for opencv_createsamples
- A helper for [OpenCV Cascade Classifier Training](https://docs.opencv.org/3.3.1/dc/d88/tutorial_traincascade.html): Mark up positive samples in image, and generate description file for opencv_createsamples
+ An html image annotation tool for [OpenCV Cascade Classifier Training](https://docs.opencv.org/3.3.1/dc/d88/tutorial_traincascade.html), used for generating the -info file. 
 
-[Live Site](https://fauny.github.io/image-samples-picker/)
+[Live Site](https://fauny.github.io/opencv-annotation-tool/)
  ## How to use 
  1. Add an image file
  1. move and resize the select rectangle to mark up one sample, double-click or press enter key to record one.
