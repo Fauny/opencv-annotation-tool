@@ -33,7 +33,7 @@
           li(v-for="(p,i) in file.rects" key="i" @click="load(p)")
             | {{i+1}}: {{p.x}} {{p.y}} {{p.w}} {{p.h}}
             span(@click="del(i)") X
-          li.hint(v-if="file.rects.length==0") no rect selected, double click rect selecotr to add
+          li.hint(v-if="file.rects.length==0") {{$t("message.noMarkers")}}
       div     
         h4 {{$t("message.result")}}
         textarea(ref="out" v-model="output")
@@ -384,6 +384,7 @@ body,
         ul {
             li {
                 list-style: none;
+                font-size: .8em;
                 cursor: pointer;
                 &.active {
                     color: blue;
