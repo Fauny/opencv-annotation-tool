@@ -19,23 +19,23 @@
     div.side 
       input(ref='if' type="file" id="fileInput" name="file" accept="image/*" @change="openFile")
       div 
-        button(@click='$refs.if.click()') AddFile
-        button(@click="make") Make & Copy
+        button(@click='$refs.if.click()') {{$t("message.addFile")}}
+        button(@click="make") {{$t("message.copy")}}
         //- button(@click="clip") Clipboard
       div.file-list 
-        h4 Files
+        h4 {{$t("message.files")}}
         ul
           li(v-for="f in fileList" :key="f.name" @click="file=f" :class="{active:f==file}") {{f.name}}
-          li.hint(v-if="fileList.length==0") no image file
+          li.hint(v-if="fileList.length==0") {{$t("message.noImageFiles")}}
       div.positions(v-if="file")
-        h4 Markers
+        h4 {{$t("message.markers")}}
         ul
           li(v-for="(p,i) in file.rects" key="i" @click="load(p)")
             | {{i+1}}: {{p.x}} {{p.y}} {{p.w}} {{p.h}}
             span(@click="del(i)") X
           li.hint(v-if="file.rects.length==0") no rect selected, double click rect selecotr to add
       div     
-        h4 Result
+        h4 {{$t("message.result")}}
         textarea(ref="out" v-model="output")
 </template>
 
@@ -315,10 +315,12 @@ export default {
             textArea.select()
             try {
                 var successful = document.execCommand('copy')
-                var msg = successful ? 'successful' : 'unsuccessful'
-                alert('Copying ' + msg)
+                var msg = this.$t(
+                    'message.' + (successful ? 'successful' : 'unsuccessful')
+                )
+                alert(this.$t('message.copying') + msg)
             } catch (err) {
-                alert('Oops, unable to copy')
+                alert(this.$t('message.copyErr'))
             }
             document.body.removeChild(textArea)
         },
